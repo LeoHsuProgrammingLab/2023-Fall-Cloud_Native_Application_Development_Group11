@@ -252,17 +252,16 @@ async function updateRating(req, res) {
     try {
         const driver = await userService.getUserByIdWithAttributes(driverID, ['ratingTotalScore', 'nRating']);
         const updateData = {
-            'ratingTotalScore': driver.ratingTotalScore+req.body.rating, 
-            'nRating': driver.nRating+1
+            'ratingTotalScore': driver.ratingTotalScore + req.body.rating, 
+            'nRating': driver.nRating + 1
         }
         await userService.updateUser(driverID, updateData);
         res.status(200).json({ "message": "Rating successfully"});
     } catch (error) {
         if(error.message == 'User not found'){
             res.status(401).json({ error: "Driver not found" });
-        }
-        else{
-            res.status(500).json({ error: 'An error occurred while rating' });
+        } else {
+            res.status(500).json({ error: error.message });
         }
     }
 }
