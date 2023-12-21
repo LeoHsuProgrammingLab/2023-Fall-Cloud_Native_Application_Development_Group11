@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const cors = require('cors');
+const fs = require('fs');
+const https = require('https');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -56,16 +58,31 @@ sequelize.sync()
         console.error('Error syncing database:', error);
     });
 
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
+
+// Cloud Server
 // const server = app.listen(port, '0.0.0.0', () => {
 //     console.log(`Server is running on port ${port}`);
 // });
 
-const server = app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+// Local Server
+// const server = app.listen(port, () => {
+//     console.log(`Server is running on port ${port}`);
+// });
+
+// HTTPS Server
+// HTTPS configuration
+const privateKey = fs.readFileSync('./certificates/key.pem', 'utf8');
+const certificate = fs.readFileSync('./certificates/cert.pem', 'utf8');
+const credentials = { key: privateKey, cert: certificate };
+
+const httpsServer = https.createServer(credentials, app);
+
+httpsServer.listen(port, () => {
+    console.log(`HTTPS Server is running on port ${port}`);
 });
 
 module.exports = {
     app,
-    server
+    httpsServer
 };

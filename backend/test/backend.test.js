@@ -24,8 +24,11 @@ beforeAll(async () => {
     console.log("sleep ends...");
 });
 
-afterAll(async () => {
-    server.close();
+afterAll(async (done) => {
+    httpsServer.close(() => {
+        console.log("close");
+        done();
+    })
 });
 
 describe("POST /api/v1/auth/signup", () => {

@@ -1,4 +1,4 @@
-const { app, server } = require('../server');
+const { app, httpsServer } = require('../httpsServer');
 const request = require('supertest');
 const User = require('../db/models/Users');
 const CarInfo = require('../db/models/CarInfo');
@@ -21,8 +21,11 @@ beforeAll(async () => {
     console.log("sleep ends...");
 });
 
-afterAll(async () => {
-    server.close();
+afterAll(async (done) => {
+    httpsServer.close(() => {
+        console.log("close");
+        done();
+    })
 });
 
 describe("POST /api/v1/auth/signup", () => {
