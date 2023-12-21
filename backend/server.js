@@ -18,8 +18,8 @@ const Grid = require('./db/models/Routes');
 const app = express()
 
 app.use(cors({
-    origin: 'http://localhost:3000',
-    // origin: ['https://tsmc-myuber.azurewebsites.net', "tsmc-myuber.azurewebsites.net"],
+    // origin: 'http://localhost:3000',
+    origin: ['https://tsmc-myuber.azurewebsites.net', "tsmc-myuber.azurewebsites.net"],
     methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD'],
     credentials: true
 }))
@@ -32,7 +32,8 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
         httpOnly: false,
-        sameSite: 'none'
+        sameSite: 'none', 
+        maxAge: 3600000
     }
 }));
 
@@ -54,13 +55,14 @@ sequelize.sync()
     });
 
 const port = process.env.PORT;
-// const server = app.listen(port, '0.0.0.0', () => {
-//     console.log(`Server is running on port ${port}`);
-// });
 
-const server = app.listen(port, () => {
+const server = app.listen(port, '0.0.0.0', () => {
     console.log(`Server is running on port ${port}`);
 });
+
+// const server = app.listen(port, () => {
+//     console.log(`Server is running on port ${port}`);
+// });
 
 module.exports = {
     app,

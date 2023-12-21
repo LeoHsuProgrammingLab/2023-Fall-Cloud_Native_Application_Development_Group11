@@ -391,8 +391,6 @@ async function updatePassengerFavor(req, res) {
             NewFavor.BACK_TIME = newData.BACK.boardTime;
             NewFavor.BACK_cnt = newData.BACK.passengerCnt;
         }
-        // console.log(userID, NewFavor)
-        // console.log(NewFavor.BACK_TIME.toLocaleTimeString());
 
         await favorService.updatePassengerFavor(userID, NewFavor);
         res.status(200).json({ message: "Update passenger favorite route successfully" });
