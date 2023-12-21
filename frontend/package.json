@@ -17,6 +17,7 @@
     "@types/react": "^18.2.35",
     "@types/react-dom": "^18.2.14",
     "axios": "^1.6.0",
+    "create-react-app": "^5.0.1",
     "dayjs": "^1.11.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
